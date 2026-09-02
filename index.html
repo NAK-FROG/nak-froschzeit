@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Froschzeit 2026 — Langenhard</title>
+<style>
+  :root{
+    --bg:#10161a;
+    --ink:#f2f6f7;
+    --muted:#b9c6cb;
+    --line:rgba(255,255,255,.18);
+    --panel:rgba(14,20,26,.82);
+
+    /* Kategorien — gedeckt, über Transparenz statt Vollton */
+    --green:#7fbf7a;
+    --green-soft:rgba(127,191,122,.15);
+    --green-edge:rgba(127,191,122,.65);
+    --green-text:#b2dcae;
+
+    --blue:#7fb2d8;
+    --blue-soft:rgba(127,178,216,.14);
+    --blue-edge:rgba(127,178,216,.62);
+    --blue-text:#aed3ec;
+
+    --orange:#e8a178;
+    --orange-soft:rgba(232,161,120,.13);
+    --orange-edge:rgba(232,161,120,.58);
+    --orange-text:#f0c1a4;
+
+    --accent:#8fd08a;
+    --brand-blue:#3b8ff0;
+    --brand-orange:#fc7425;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:"Avenir Next","Segoe UI",Helvetica,Arial,sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- Animationen ---------- */
+  @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  @keyframes glow{
+    0%,100%{box-shadow:0 10px 34px rgba(0,0,0,.45), 0 0 0 5px rgba(255,255,255,.08)}
+    50%{box-shadow:0 14px 42px rgba(0,0,0,.5), 0 0 0 7px rgba(143,208,138,.14)}
+  }
+  @keyframes sheen{from{transform:translateX(-120%) skewX(-18deg)}to{transform:translateX(320%) skewX(-18deg)}}
+
+  .rise{opacity:0;animation:rise .8s cubic-bezier(.22,.9,.3,1) both}
+  .d1{animation-delay:.12s}.d2{animation-delay:.26s}.d3{animation-delay:.42s}.d4{animation-delay:.58s}
+
+  /* ---------- Willkommen ---------- */
+  .hero{
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:48px 24px;
+    background:
+      radial-gradient(120% 90% at 50% 0%, rgba(70,105,110,.55) 0%, rgba(16,22,26,.95) 65%),
+      linear-gradient(180deg,#1b262b 0%,#10161a 100%);
+  }
+  .logo{display:block;border-radius:50%;background:#fff}
+  .logo-hero{
+    width:118px;height:118px;margin:0 auto 26px;
+    box-shadow:0 10px 34px rgba(0,0,0,.45), 0 0 0 5px rgba(255,255,255,.08);
+    animation:rise .9s cubic-bezier(.22,.9,.3,1) both, float 7s ease-in-out 1.2s infinite, glow 7s ease-in-out 1.2s infinite;
+  }
+  .logo-head{width:52px;height:52px;margin:0 auto 14px;box-shadow:0 6px 18px rgba(0,0,0,.4)}
+  .logo-foot{width:36px;height:36px;margin:0 auto 14px;opacity:.8;transition:opacity .3s ease,transform .3s ease}
+  .logo-foot:hover{opacity:1;transform:translateY(-3px)}
+  .hero h1{
+    font-size:clamp(28px,5.2vw,58px);
+    line-height:1.18;
+    font-weight:700;
+    margin:0 0 34px;
+    max-width:16ch;
+    letter-spacing:.4px;
+  }
+  .btns{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+  .btn{
+    position:relative;
+    overflow:hidden;
+    display:inline-block;
+    padding:16px 34px;
+    border-radius:999px;
+    font-size:17px;
+    font-weight:600;
+    text-decoration:none;
+    border:2px solid transparent;
+    cursor:pointer;
+    transition:transform .25s cubic-bezier(.22,.9,.3,1), background .25s ease, box-shadow .25s ease;
+  }
+  .btn:hover{transform:translateY(-3px)}
+  .btn:active{transform:translateY(-1px)}
+  .btn::after{
+    content:"";position:absolute;top:0;left:0;width:38%;height:100%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent);
+    transform:translateX(-120%) skewX(-18deg);opacity:0;
+  }
+  .btn:hover::after{opacity:1;animation:sheen .75s ease-out}
+  .btn-primary{background:rgba(143,208,138,.9);color:#0d1a0e;box-shadow:0 8px 24px rgba(143,208,138,.2)}
+  .btn-primary:hover{background:var(--accent);box-shadow:0 12px 32px rgba(143,208,138,.3)}
+  .btn-ghost{background:rgba(255,255,255,.06);color:var(--ink);border-color:var(--line)}
+  .btn-ghost:hover{background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.3)}
+  .hint{margin-top:34px;font-size:13px;color:rgba(255,255,255,.4);letter-spacing:.6px;text-transform:uppercase}
+  .hint .addr{
+    color:rgba(255,255,255,.55);text-decoration:none;
+    border-bottom:1px solid rgba(255,255,255,.2);padding-bottom:2px;
+    transition:color .3s ease,border-color .3s ease;
+  }
+  .hint .addr:hover{color:var(--accent);border-color:rgba(143,208,138,.6)}
+
+  /* ---------- Programm ---------- */
+  #programm{
+    display:none;
+    position:relative;
+    padding:64px 20px 90px;
+    background-color:#0b1116;
+    background-image:
+      linear-gradient(180deg, rgba(9,14,19,.28) 0%, rgba(9,14,19,.56) 52%, rgba(9,14,19,.78) 100%),
+      url("Langenhard.jpeg");
+    background-size:auto, cover;
+    background-position:center, center 60%;
+    background-repeat:no-repeat, no-repeat;
+    background-attachment:fixed, fixed;
+  }
+  #programm.show{display:block;animation:fade .6s ease both}
+
+  .wrap{max-width:1060px;margin:0 auto}
+  .prog-head{text-align:center;margin-bottom:40px}
+  .prog-head h2{font-size:clamp(26px,4vw,42px);margin:0 0 8px;letter-spacing:.5px;text-shadow:0 2px 14px rgba(0,0,0,.75)}
+  .prog-head span{color:#e4ecee;font-size:15px;letter-spacing:2px;text-transform:uppercase;text-shadow:0 1px 10px rgba(0,0,0,.8)}
+
+  .day{
+    margin-bottom:38px;border-radius:16px;overflow:hidden;background:var(--panel);
+    border:1px solid var(--line);backdrop-filter:blur(4px);
+    opacity:0;transform:translateY(26px);
+    transition:opacity .75s cubic-bezier(.22,.9,.3,1), transform .75s cubic-bezier(.22,.9,.3,1), box-shadow .4s ease;
+  }
+  .day.in{opacity:1;transform:none}
+  .day:hover{box-shadow:0 14px 40px rgba(0,0,0,.3)}
+  .day > h3{
+    margin:0;padding:16px 22px;
+    font-size:20px;letter-spacing:3px;text-transform:uppercase;
+    background:rgba(255,255,255,.055);
+    border-bottom:2px solid transparent;
+    border-image:linear-gradient(90deg,rgba(59,143,240,.75) 0%,rgba(252,116,37,.6) 55%,rgba(255,255,255,.08) 100%) 1;
+  }
+  .day > h3 small{display:block;font-size:12px;letter-spacing:1px;color:var(--muted);text-transform:none;margin-top:3px;font-weight:400}
+
+  .scroller{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;min-width:620px}
+  th,td{padding:12px 14px;text-align:left;font-size:15px;border-bottom:1px solid rgba(255,255,255,.07);vertical-align:top}
+  thead th{
+    font-size:12px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);font-weight:600;
+    background:rgba(255,255,255,.035);
+  }
+  .t{white-space:nowrap;font-variant-numeric:tabular-nums;width:130px;color:#dfe8ea;transition:transform .3s cubic-bezier(.22,.9,.3,1)}
+  tbody tr{transition:background .3s ease}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:rgba(255,255,255,.05)}
+  tbody tr:hover .t{transform:translateX(3px)}
+
+  /* Kategorien: zarte Tönung + farbige Kante statt Vollton */
+  tr.meal td{background:var(--green-soft)}
+  tr.meal td.t{color:var(--green-text);box-shadow:inset 3px 0 0 var(--green-edge)}
+  tr.spirit td{background:var(--blue-soft)}
+  tr.spirit td.t{color:var(--blue-text);box-shadow:inset 3px 0 0 var(--blue-edge)}
+  tr.note td{background:var(--orange-soft)}
+  tr.note td.t{color:var(--orange-text);box-shadow:inset 3px 0 0 var(--orange-edge)}
+  tr.meal:hover td{background:rgba(127,191,122,.21)}
+  tr.spirit:hover td{background:rgba(127,178,216,.2)}
+  tr.note:hover td{background:rgba(232,161,120,.19)}
+  td.t.tbd{color:#9aa8ae;font-style:italic}
+
+  .legend{display:flex;gap:22px;flex-wrap:wrap;justify-content:center;margin:6px 0 34px;font-size:14px;color:#dbe4e7;text-shadow:0 1px 10px rgba(0,0,0,.8)}
+  .legend span{transition:opacity .3s ease}
+  .legend:hover span{opacity:.55}
+  .legend span:hover{opacity:1}
+  .legend i{display:inline-block;width:14px;height:14px;border-radius:4px;margin-right:8px;vertical-align:-2px;border:1px solid rgba(255,255,255,.16)}
+
+  /* ---------- Daueraktionen ---------- */
+  .day.always > h3{
+    border-image:linear-gradient(90deg,rgba(143,208,138,.7) 0%,rgba(59,143,240,.55) 60%,rgba(255,255,255,.08) 100%) 1;
+  }
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:14px;
+    padding:20px 22px 24px;
+  }
+  .card{
+    border:1px solid rgba(255,255,255,.11);
+    border-left:3px solid rgba(143,208,138,.55);
+    border-radius:12px;
+    background:rgba(255,255,255,.04);
+    padding:15px 17px;
+    transition:transform .35s cubic-bezier(.22,.9,.3,1), background .35s ease, border-color .35s ease, box-shadow .35s ease;
+  }
+  .card:hover{
+    transform:translateY(-4px);
+    background:rgba(255,255,255,.07);
+    border-left-color:rgba(143,208,138,.85);
+    box-shadow:0 12px 28px rgba(0,0,0,.28);
+  }
+  .card .tag{
+    display:inline-block;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;
+    color:#c2e5be;background:rgba(143,208,138,.16);border:1px solid rgba(143,208,138,.35);
+    border-radius:999px;padding:3px 11px;margin-bottom:9px;font-weight:600;
+  }
+  .card h4{margin:0 0 6px;font-size:17px;font-weight:600;line-height:1.3}
+  .card p{margin:2px 0;font-size:14px;color:#dbe4e7}
+  .card p.who::before{content:"👤 ";}
+  .card p.pl::before{content:"📍 ";}
+  .card p:empty{display:none}
+
+  .foot{text-align:center;margin-top:46px}
+  .foot a{color:var(--accent);text-decoration:none;font-weight:600}
+  .foot a:hover{text-decoration:underline}
+  .up{display:inline-block;margin-top:20px;color:var(--muted);font-size:14px;text-decoration:none;transition:color .3s ease,transform .3s ease}
+  .up:hover{color:var(--ink);transform:translateY(-3px)}
+
+  /* ---------- Mobil: Tabelle -> Karten ---------- */
+  @media (max-width:640px){
+    #programm{
+      padding:44px 14px 70px;
+      background-attachment:scroll, scroll;
+      background-size:auto, 100% auto;
+      background-position:center, top center;
+      background-image:
+        linear-gradient(180deg, rgba(9,14,19,.3) 0px, rgba(9,14,19,.76) 240px, rgba(9,14,19,.92) 420px),
+        url("Langenhard.jpeg");
+    }
+    .logo-hero{width:92px;height:92px;margin-bottom:18px}
+    table{min-width:0}
+    thead{display:none}
+    tbody tr{display:block;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.09)}
+    tbody tr td{display:block;border:none;padding:2px 0;font-size:15px;background:transparent!important}
+    tbody tr td.t{font-weight:700;font-size:16px;color:#fff;box-shadow:none!important}
+    tbody tr td.ev{font-size:17px;font-weight:600;margin:2px 0 4px}
+    tbody tr td.pl::before{content:"📍 ";}
+    tbody tr td.who::before{content:"👤 ";}
+    tbody tr td:empty{display:none}
+    tr.meal{background:var(--green-soft);box-shadow:inset 3px 0 0 var(--green-edge)}
+    tr.spirit{background:var(--blue-soft);box-shadow:inset 3px 0 0 var(--blue-edge)}
+    tr.note{background:var(--orange-soft);box-shadow:inset 3px 0 0 var(--orange-edge)}
+    tr.meal td.t{color:var(--green-text)}
+    tr.spirit td.t{color:var(--blue-text)}
+    tr.note td.t{color:var(--orange-text)}
+    tbody tr td.t.tbd{color:#9aa8ae}
+    .cards{padding:16px 14px 20px;grid-template-columns:1fr}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::after{animation:none!important;transition:none!important}
+    .rise,.day{opacity:1!important;transform:none!important}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= WILLKOMMEN ================= -->
+<section class="hero" id="start">
+  <img class="logo logo-hero" src="logo-loefrog.png" alt="LöFROG Logo">
+  <h1 class="rise d1">Herzlich Willkommen zur Froschzeit 2026 auf dem Langenhard</h1>
+  <div class="btns rise d2">
+    <a class="btn btn-primary" href="https://forms.gle/XhWDRAVQKNBA3Pff8" target="_blank" rel="noopener">Zur Anmeldung</a>
+    <button class="btn btn-ghost" id="openProgram">Zum Programm</button>
+  </div>
+  <div class="hint rise d3"><a class="addr" href="https://maps.app.goo.gl/CffckvCaHVS8pNPU7" target="_blank" rel="noopener">Langenhard 7, 77933 Lahr/Schwarzwald-Sulz</a></div>
+</section>
+
+<!-- ================= PROGRAMM ================= -->
+<section id="programm">
+  <div class="wrap">
+    <div class="prog-head">
+      <img class="logo logo-head" src="logo-loefrog.png" alt="">
+      <h2>Programm</h2>
+      <span>Froschzeit 2026 · Langenhard</span>
+    </div>
+
+    <div class="legend">
+      <span><i style="background:var(--green-soft);border-color:var(--green-edge)"></i>Mahlzeiten</span>
+      <span><i style="background:var(--blue-soft);border-color:var(--blue-edge)"></i>Geistliches Programm</span>
+      <span><i style="background:var(--orange-soft);border-color:var(--orange-edge)"></i>Organisatorisches</span>
+    </div>
+
+    <!-- FREITAG -->
+    <div class="day">
+      <h3>Freitag</h3>
+      <div class="scroller">
+      <table>
+        <thead><tr><th class="t">Uhrzeit</th><th>Veranstaltung</th><th>Treffpunkt</th><th>Ansprechpartner</th></tr></thead>
+        <tbody>
+          <tr><td class="t">17:00 – 18:30</td><td class="ev">Ankommen &amp; Einchecken</td><td class="pl">Eingangshalle</td><td class="who">Marc &amp; Kristof</td></tr>
+          <tr class="meal"><td class="t">18:30 – 19:30</td><td class="ev">Abendessen</td><td class="pl">Großer Speisesaal</td><td class="who">Andi &amp; Sonnet</td></tr>
+          <tr class="spirit"><td class="t">20:00 – 20:15</td><td class="ev">Kick Off</td><td class="pl">Gemeinschaftsraum</td><td class="who">offen</td></tr>
+          <tr><td class="t">20:15 – 21:00</td><td class="ev">Kennenlern-Olympiade</td><td class="pl">Gemeinschaftsraum</td><td class="who">Tanja</td></tr>
+          <tr><td class="t">ab 21:15</td><td class="ev">Karaoke</td><td class="pl">Vogesenstube</td><td class="who">Kristof &amp; Elvis</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <!-- SAMSTAG -->
+    <div class="day">
+      <h3>Samstag</h3>
+      <div class="scroller">
+      <table>
+        <thead><tr><th class="t">Uhrzeit</th><th>Veranstaltung</th><th>Treffpunkt</th><th>Ansprechpartner</th></tr></thead>
+        <tbody>
+          <tr><td class="t">07:30 – 08:00</td><td class="ev">Early Bird</td><td class="pl">Treffpunkt zwischen den Häusern</td><td class="who">Oli</td></tr>
+          <tr class="meal"><td class="t">08:00 – 09:00</td><td class="ev">Frühstück</td><td class="pl">Speisesaal</td><td class="who">Andi &amp; Sonnet</td></tr>
+          <tr><td class="t">10:00 – 11:00</td><td class="ev">Zimtschnecken backen im Holzofen</td><td class="pl">Küche</td><td class="who">Oli</td></tr>
+          <tr class="meal"><td class="t">12:30 – 13:30</td><td class="ev">Mittagessen</td><td class="pl">Speisesaal</td><td class="who">Andi &amp; Sonnet</td></tr>
+          <tr><td class="t">ab 16:00</td><td class="ev">Mario Kart</td><td class="pl">Gemeinschaftsraum</td><td class="who">Elvis</td></tr>
+          <tr class="meal"><td class="t">18:00 – 19:00</td><td class="ev">Abendessen</td><td class="pl">Speisesaal</td><td class="who">Andi &amp; Sonnet</td></tr>
+          <tr><td class="t tbd">noch offen</td><td class="ev">Workshop / offenes Singen</td><td class="pl">—</td><td class="who">Tamara, Krissi, Sophia, Timea</td></tr>
+          <tr><td class="t tbd">noch offen</td><td class="ev">Frosch-Badge, Verzierung mit Textilmarkern, FROG-T-Shirts drucken</td><td class="pl">—</td><td class="who">Valeska &amp; Annika</td></tr>
+          <tr class="spirit"><td class="t tbd">noch offen</td><td class="ev">Gottesdienst vorbereiten inkl. Motto-Aufbereitung</td><td class="pl">—</td><td class="who">Marc, Julia</td></tr>
+          <tr><td class="t tbd">noch offen</td><td class="ev">Workshop „Finde deine Superpower“</td><td class="pl">—</td><td class="who">Kristof</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <!-- DAUERAKTIONEN -->
+    <div class="day always">
+      <h3>Daueraktionen</h3>
+      <div class="cards">
+        <div class="card">
+          <span class="tag">Ganztägig</span>
+          <h4>Spiel &amp; Sport</h4>
+          <p class="pl">Draußen</p>
+          <p class="who">Self-Service ☺</p>
+        </div>
+        <div class="card">
+          <span class="tag">Jederzeit</span>
+          <h4>Gebetsraum</h4>
+          <p>Raum für Ruhe oder Gespräche</p>
+          <p class="pl">Gebetsraum</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SONNTAG -->
+    <div class="day">
+      <h3>Sonntag</h3>
+      <div class="scroller">
+      <table>
+        <thead><tr><th class="t">Uhrzeit</th><th>Veranstaltung</th><th>Treffpunkt</th><th>Ansprechpartner</th></tr></thead>
+        <tbody>
+          <tr><td class="t">07:30 – 08:00</td><td class="ev">Early Bird</td><td class="pl">Treffpunkt zwischen den Häusern</td><td class="who">Oli</td></tr>
+          <tr class="meal"><td class="t">08:00 – 09:00</td><td class="ev">Frühstück</td><td class="pl">Speisesaal</td><td class="who">Andi &amp; Sonnet</td></tr>
+          <tr class="note"><td class="t">09:00 – 09:30</td><td class="ev">Packen &amp; Zimmer ausräumen</td><td class="pl">—</td><td class="who">alle</td></tr>
+          <tr class="spirit"><td class="t">09:30 – 10:15</td><td class="ev">Chorprobe</td><td class="pl">Gemeinschaftsraum</td><td class="who">Tamara &amp; Krissi</td></tr>
+          <tr class="spirit"><td class="t">10:30 – 11:30</td><td class="ev">Gottesdienst</td><td class="pl">Gemeinschaftsraum</td><td class="who">Marc &amp; Julia</td></tr>
+          <tr class="meal"><td class="t">12:30 – 13:30</td><td class="ev">Mittagessen</td><td class="pl">Speisesaal</td><td class="who">Andi &amp; Sonnet</td></tr>
+          <tr class="note"><td class="t">13:30 – 14:00</td><td class="ev">Gemeinschaftsräume aufräumen &amp; Abreise</td><td class="pl">—</td><td class="who">Marc</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="foot">
+      <img class="logo logo-foot" src="logo-loefrog.png" alt="">
+      <p>Noch nicht angemeldet?<br><a href="https://forms.gle/XhWDRAVQKNBA3Pff8" target="_blank" rel="noopener">Hier geht's zur Anmeldung →</a></p>
+      <a class="up" href="#start">↑ nach oben</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Blöcke sanft einblenden, sobald sie in den Blick kommen
+  var days = document.querySelectorAll('.day');
+  function revealAll(){ days.forEach(function(d){ d.classList.add('in'); }); }
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e, i) {
+        if (e.isIntersecting) {
+          e.target.style.transitionDelay = (i * 90) + 'ms';
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, {threshold:.12, rootMargin:'0px 0px -8% 0px'});
+    days.forEach(function (d) { io.observe(d); });
+  } else {
+    revealAll();
+  }
+
+  document.getElementById('openProgram').addEventListener('click', function () {
+    var p = document.getElementById('programm');
+    p.classList.add('show');
+    p.scrollIntoView({behavior: 'smooth'});
+  });
+
+  // Direkteinstieg per #programm
+  if (location.hash === '#programm') {
+    document.getElementById('programm').classList.add('show');
+  }
+</script>
+</body>
+</html>
