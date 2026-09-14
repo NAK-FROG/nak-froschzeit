@@ -69,6 +69,26 @@
       radial-gradient(90% 60% at 50% 100%, rgba(252,116,37,.16) 0%, rgba(12,19,28,0) 70%),
       linear-gradient(180deg,#15263a 0%,#0c131c 100%);
   }
+  .sound-btn{
+    position:fixed;top:16px;right:16px;z-index:50;
+    display:flex;align-items:center;gap:8px;
+    padding:9px 15px 9px 13px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.2);
+    background:rgba(12,19,28,.68);
+    backdrop-filter:blur(6px);
+    color:var(--ink);
+    font:inherit;font-size:13px;font-weight:600;letter-spacing:.3px;
+    cursor:pointer;
+    box-shadow:0 8px 22px rgba(0,0,0,.35);
+    transition:background .3s ease,border-color .3s ease,transform .3s cubic-bezier(.22,.9,.3,1),opacity .3s ease;
+  }
+  .sound-btn:hover{background:rgba(20,32,46,.86);border-color:rgba(255,255,255,.34);transform:translateY(-2px)}
+  .sound-btn .ico{font-size:15px;line-height:1}
+  .sound-btn.muted{opacity:.72}
+  @media (max-width:640px){
+    .sound-btn{top:10px;right:10px;padding:8px 13px 8px 11px;font-size:12px}
+  }
   .motto{
     margin:0 0 30px;
     width:min(540px,86vw);
@@ -393,6 +413,12 @@
 </head>
 <body>
 
+<audio id="mottoSound" preload="auto">
+  <source src="voice-motto.m4a" type="audio/mp4">
+  <source src="voice-motto.mp3" type="audio/mpeg">
+</audio>
+<button class="sound-btn" id="soundBtn" type="button" aria-label="Ton an oder aus"><span class="ico" id="soundIco">♪</span><span id="soundTxt">Ton an</span></button>
+
 <!-- ================= WILLKOMMEN ================= -->
 <section class="hero" id="start">
   <figure class="motto">
@@ -454,8 +480,8 @@
           <tr class="meal"><td class="t">12:30 – 13:30</td><td class="ev">Mittagessen</td><td class="pl">Speisesaal</td><td class="who">Andi &amp; Sonet</td></tr>
           <tr><td class="t">14:00 – 16:00</td><td class="ev">Zimtschnecken backen im Holzofen</td><td class="pl">Küche im kleinen Haus</td><td class="who">Oli</td></tr>
           <tr><td class="t">ab 16:00</td><td class="ev">Mario Kart</td><td class="pl">Gemeinschaftsraum</td><td class="who">Elvis</td></tr>
+          <tr class="spirit"><td class="t">16:30 – 17:30</td><td class="ev">Offenes Singen</td><td class="pl">Großer Saal im kleinen Haus</td><td class="who">Tamara, Krissi, Sophia &amp; Timea</td></tr>
           <tr class="meal"><td class="t">18:00 – 19:00</td><td class="ev">Abendessen</td><td class="pl">Speisesaal</td><td class="who">Andi &amp; Sonet</td></tr>
-          <tr class="spirit"><td class="t">19:30 – 20:30</td><td class="ev">Offenes Singen</td><td class="pl">—</td><td class="who">Tamara, Krissi, Sophia &amp; Timea</td></tr>
           <tr class="spirit"><td class="t tbd">noch offen</td><td class="ev">Gottesdienst vorbereiten inkl. Motto-Aufbereitung</td><td class="pl">—</td><td class="who">Marc, Julia</td></tr>
         </tbody>
       </table>
@@ -493,8 +519,8 @@
           <tr class="note"><td class="t">09:00 – 09:30</td><td class="ev">Packen &amp; Zimmer ausräumen</td><td class="pl">—</td><td class="who">alle</td></tr>
           <tr class="spirit"><td class="t">09:30 – 10:15</td><td class="ev">Chorprobe</td><td class="pl">Gemeinschaftsraum</td><td class="who">Tamara &amp; Krissi</td></tr>
           <tr class="spirit"><td class="t">10:30 – 11:30</td><td class="ev">Gottesdienst</td><td class="pl">Gemeinschaftsraum</td><td class="who">Marc &amp; Julia</td></tr>
-          <tr class="meal"><td class="t">11:45 – 12:45</td><td class="ev">Mittagessen</td><td class="pl">Speisesaal</td><td class="who">Andi &amp; Sonet</td></tr>
-          <tr class="note"><td class="t">12:45 – 13:15</td><td class="ev">Gemeinschaftsräume aufräumen &amp; Abreise</td><td class="pl">—</td><td class="who">Marc</td></tr>
+          <tr class="meal"><td class="t">11:30 – 12:30</td><td class="ev">Mittagessen</td><td class="pl">Speisesaal</td><td class="who">Andi &amp; Sonet</td></tr>
+          <tr class="note"><td class="t">12:30 – 13:00</td><td class="ev">Gemeinschaftsräume aufräumen &amp; Abreise</td><td class="pl">—</td><td class="who">Marc</td></tr>
         </tbody>
       </table>
       </div>
@@ -610,6 +636,73 @@
     p.classList.add('show');
     p.scrollIntoView({behavior: 'smooth'});
   });
+
+  // Motto-Ton: startet beim Betreten, blendet die letzten 3 Sekunden aus
+  (function(){
+    var a = document.getElementById('mottoSound');
+    var btn = document.getElementById('soundBtn');
+    var ico = document.getElementById('soundIco');
+    var txt = document.getElementById('soundTxt');
+    var FADE = 3;
+    var started = false, faded = false, userOff = false;
+
+    function label(on){
+      ico.textContent = on ? '\u266a' : '\u2715';
+      txt.textContent = on ? 'Ton an' : 'Ton aus';
+      if (on) { btn.classList.remove('muted'); } else { btn.classList.add('muted'); }
+    }
+
+    function start(){
+      if (started || userOff) { return; }
+      var p = a.play();
+      if (p && p.then) {
+        p.then(function(){ started = true; label(true); }).catch(function(){});
+      } else {
+        started = true; label(true);
+      }
+    }
+
+    a.addEventListener('timeupdate', function(){
+      if (!a.duration || isNaN(a.duration)) { return; }
+      var left = a.duration - a.currentTime;
+      if (left <= FADE) {
+        faded = true;
+        a.volume = Math.max(0, Math.min(1, left / FADE));
+      } else if (!faded) {
+        a.volume = 1;
+      }
+    });
+    a.addEventListener('ended', function(){ label(false); });
+
+    btn.addEventListener('click', function(){
+      if (a.paused) {
+        userOff = false;
+        a.volume = 1;
+        if (a.ended) { a.currentTime = 0; faded = false; }
+        a.play();
+        started = true;
+        label(true);
+      } else {
+        userOff = true;
+        a.pause();
+        label(false);
+      }
+    });
+
+    label(false);
+    start();
+
+    // Fallback: viele Browser erlauben Ton erst nach der ersten Geste
+    function once(){
+      start();
+      document.removeEventListener('click', once);
+      document.removeEventListener('keydown', once);
+      document.removeEventListener('touchstart', once);
+    }
+    document.addEventListener('click', once);
+    document.addEventListener('keydown', once);
+    document.addEventListener('touchstart', once);
+  })();
 
   function openPack(scroll){
     var p = document.getElementById('packliste');
