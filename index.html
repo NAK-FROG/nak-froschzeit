@@ -225,58 +225,101 @@
 
 
   /* ---------- Packliste ---------- */
+  #packliste{
+    display:none;
+    position:relative;
+    padding:64px 20px 90px;
+    background-color:#0b1116;
+    background-image:
+      linear-gradient(180deg, rgba(9,14,19,.45) 0%, rgba(9,14,19,.7) 52%, rgba(9,14,19,.86) 100%),
+      url("Langenhard.jpeg");
+    background-size:auto, cover;
+    background-position:center, center 60%;
+    background-repeat:no-repeat, no-repeat;
+    background-attachment:fixed, fixed;
+  }
+  #packliste.show{display:block;animation:fade .6s ease both}
+  .wrap-narrow{max-width:760px;margin:0 auto}
+
+  .pack-intro{
+    text-align:center;max-width:52ch;margin:0 auto 26px;
+    font-size:15px;line-height:1.5;color:#e4ecee;text-shadow:0 1px 10px rgba(0,0,0,.8);
+  }
+  .pack-progress{max-width:520px;margin:0 auto 34px}
+  .pbar{height:9px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid var(--line);overflow:hidden}
+  .pbar i{
+    display:block;height:100%;width:0;border-radius:999px;
+    background:linear-gradient(90deg,rgba(143,208,138,.95),rgba(59,143,240,.85));
+    transition:width .5s cubic-bezier(.22,.9,.3,1);
+  }
+  .pmeta{
+    display:flex;justify-content:space-between;align-items:center;gap:12px;
+    margin-top:10px;font-size:13px;color:#dbe4e7;text-shadow:0 1px 10px rgba(0,0,0,.8);
+  }
+  .pmeta b{font-weight:600;color:#fff}
+  .pmeta button{
+    background:none;border:none;padding:0;font:inherit;color:var(--muted);cursor:pointer;
+    border-bottom:1px solid rgba(255,255,255,.22);transition:color .3s ease,border-color .3s ease;
+  }
+  .pmeta button:hover{color:var(--accent);border-color:rgba(143,208,138,.6)}
+
   .day.pack > h3{
     border-image:linear-gradient(90deg,rgba(232,161,120,.72) 0%,rgba(143,208,138,.5) 60%,rgba(255,255,255,.08) 100%) 1;
   }
-  .packlist{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:12px;
-    padding:20px 22px 24px;
-    margin:0;
-    list-style:none;
-  }
-  .packlist li{
-    display:flex;
-    gap:12px;
-    align-items:flex-start;
+  .packlist{list-style:none;margin:0;padding:16px 18px 20px;display:grid;gap:9px}
+  .packlist label{
+    position:relative;
+    display:flex;gap:13px;align-items:flex-start;
+    padding:12px 15px;
     border:1px solid rgba(255,255,255,.11);
     border-left:3px solid rgba(143,208,138,.45);
     border-radius:12px;
     background:rgba(255,255,255,.04);
-    padding:13px 16px;
-    font-size:15px;
-    line-height:1.35;
-    transition:transform .35s cubic-bezier(.22,.9,.3,1), background .35s ease, border-color .35s ease, box-shadow .35s ease;
+    cursor:pointer;
+    transition:transform .3s cubic-bezier(.22,.9,.3,1), background .3s ease, border-color .3s ease, box-shadow .3s ease;
   }
-  .packlist li:hover{
-    transform:translateY(-4px);
+  .packlist label:hover{
+    transform:translateY(-2px);
     background:rgba(255,255,255,.07);
     border-left-color:rgba(143,208,138,.85);
-    box-shadow:0 12px 28px rgba(0,0,0,.28);
+    box-shadow:0 10px 24px rgba(0,0,0,.26);
   }
-  .packlist li::before{
-    content:"\2713";
-    flex:0 0 auto;
-    width:22px;height:22px;
-    margin-top:1px;
+  .packlist input{position:absolute;opacity:0;width:0;height:0}
+  .packlist .box{
+    flex:0 0 auto;width:23px;height:23px;margin-top:1px;
     display:flex;align-items:center;justify-content:center;
     border-radius:7px;
-    font-size:13px;font-weight:700;
-    color:#c2e5be;
-    background:rgba(143,208,138,.16);
-    border:1px solid rgba(143,208,138,.35);
-    transition:background .35s ease,color .35s ease;
+    border:1px solid rgba(143,208,138,.4);
+    background:rgba(143,208,138,.12);
+    transition:background .3s ease,border-color .3s ease;
   }
-  .packlist li:hover::before{background:rgba(143,208,138,.3);color:#e6f6e4}
-  .packlist li b{font-weight:600}
-  .packlist li small{display:block;margin-top:5px;font-size:13px;color:var(--muted);line-height:1.4}
-  .packlist li.hi{border-left-color:rgba(232,161,120,.7);background:var(--orange-soft)}
-  .packlist li.hi::before{color:#f0c1a4;background:rgba(232,161,120,.18);border-color:rgba(232,161,120,.4)}
-  .packlist li.hi:hover{border-left-color:rgba(232,161,120,.95);background:rgba(232,161,120,.19)}
-  .packlist li.hi:hover::before{background:rgba(232,161,120,.32);color:#ffe0cb}
+  .packlist .box::after{
+    content:"\2713";font-size:13px;font-weight:700;color:#0d1a0e;
+    opacity:0;transform:scale(.4);
+    transition:opacity .25s ease, transform .3s cubic-bezier(.3,1.5,.5,1);
+  }
+  .packlist input:checked + .box{background:rgba(143,208,138,.92);border-color:rgba(143,208,138,.95)}
+  .packlist input:checked + .box::after{opacity:1;transform:none}
+  .packlist input:focus-visible + .box{box-shadow:0 0 0 3px rgba(143,208,138,.35)}
+  .packlist .txt{font-size:15px;line-height:1.35;transition:opacity .3s ease}
+  .packlist .txt small{display:block;margin-top:5px;font-size:13px;color:var(--muted);line-height:1.4}
+  .packlist input:checked ~ .txt{opacity:.45}
+  .packlist input:checked ~ .txt b{text-decoration:line-through}
+  .packlist li.hi label{border-left-color:rgba(232,161,120,.7);background:var(--orange-soft)}
+  .packlist li.hi .box{border-color:rgba(232,161,120,.45);background:rgba(232,161,120,.16)}
+  .packlist li.hi label:hover{border-left-color:rgba(232,161,120,.95);background:rgba(232,161,120,.19)}
+
   @media (max-width:640px){
-    .packlist{padding:16px 14px 20px;grid-template-columns:1fr}
+    #packliste{
+      padding:44px 14px 70px;
+      background-attachment:scroll, scroll;
+      background-size:auto, 100% auto;
+      background-position:center, top center;
+      background-image:
+        linear-gradient(180deg, rgba(9,14,19,.4) 0px, rgba(9,14,19,.82) 240px, rgba(9,14,19,.93) 420px),
+        url("Langenhard.jpeg");
+    }
+    .packlist{padding:14px 12px 18px}
   }
 
   .foot{text-align:center;margin-top:46px}
@@ -332,6 +375,7 @@
   <div class="btns rise d2">
     <a class="btn btn-primary" href="https://forms.gle/XhWDRAVQKNBA3Pff8" target="_blank" rel="noopener">Zur Anmeldung</a>
     <button class="btn btn-ghost" id="openProgram">Zum Programm</button>
+    <button class="btn btn-ghost" id="openPack">Packliste</button>
   </div>
   <div class="hint rise d3"><a class="addr" href="https://maps.app.goo.gl/CffckvCaHVS8pNPU7" target="_blank" rel="noopener">Langenhard 7, 77933 Lahr/Schwarzwald-Sulz</a></div>
 </section>
@@ -361,7 +405,7 @@
           <tr><td class="t">17:00 – 18:30</td><td class="ev">Ankommen &amp; Einchecken</td><td class="pl">Eingangshalle</td><td class="who">Marc &amp; Kristof</td></tr>
           <tr class="meal"><td class="t">18:30 – 19:30</td><td class="ev">Abendessen</td><td class="pl">Großer Speisesaal</td><td class="who">Andi &amp; Sonet</td></tr>
           <tr class="spirit"><td class="t">20:00 – 20:15</td><td class="ev">Kick Off</td><td class="pl">Gemeinschaftsraum</td><td class="who">offen</td></tr>
-          <tr><td class="t">20:15 – 21:00</td><td class="ev">Kennenlern-Olympiade</td><td class="pl">Gemeinschaftsraum</td><td class="who">Tanja</td></tr>
+          <tr><td class="t">20:15 – 20:45</td><td class="ev">Kennenlernspiele</td><td class="pl">Gemeinschaftsraum</td><td class="who">Lisa, Lea &amp; Tanja</td></tr>
           <tr><td class="t">ab 21:15</td><td class="ev">Karaoke</td><td class="pl">Vogesenstube</td><td class="who">Kristof &amp; Elvis</td></tr>
         </tbody>
       </table>
@@ -377,8 +421,9 @@
         <tbody>
           <tr><td class="t">07:30 – 08:00</td><td class="ev">Early Bird</td><td class="pl">Treffpunkt zwischen den Häusern</td><td class="who">Oli</td></tr>
           <tr class="meal"><td class="t">08:00 – 09:00</td><td class="ev">Frühstück</td><td class="pl">Speisesaal</td><td class="who">Andi &amp; Sonet</td></tr>
-          <tr><td class="t">10:00 – 11:00</td><td class="ev">Zimtschnecken backen im Holzofen</td><td class="pl">Küche</td><td class="who">Oli</td></tr>
+          <tr><td class="t">09:30 – 11:00</td><td class="ev">Kennenlern-Olympiade</td><td class="pl">Gemeinschaftsraum</td><td class="who">Lisa, Lea &amp; Tanja</td></tr>
           <tr class="meal"><td class="t">12:30 – 13:30</td><td class="ev">Mittagessen</td><td class="pl">Speisesaal</td><td class="who">Andi &amp; Sonet</td></tr>
+          <tr><td class="t">14:00 – 16:00</td><td class="ev">Zimtschnecken backen im Holzofen</td><td class="pl">Küche im kleinen Haus</td><td class="who">Oli</td></tr>
           <tr><td class="t">ab 16:00</td><td class="ev">Mario Kart</td><td class="pl">Gemeinschaftsraum</td><td class="who">Elvis</td></tr>
           <tr class="meal"><td class="t">18:00 – 19:00</td><td class="ev">Abendessen</td><td class="pl">Speisesaal</td><td class="who">Andi &amp; Sonet</td></tr>
           <tr><td class="t tbd">noch offen</td><td class="ev">Workshop / offenes Singen</td><td class="pl">—</td><td class="who">Tamara, Krissi, Sophia, Timea</td></tr>
@@ -428,35 +473,86 @@
       </div>
     </div>
 
-    <!-- PACKLISTE -->
-    <div class="day pack">
-      <h3>Froschzeit Packliste<small>Damit nichts fehlt</small></h3>
-      <ul class="packlist">
-        <li><div><b>Snacks zum Teilen</b></div></li>
-        <li><div><b>Handtücher</b></div></li>
-        <li><div><b>(Gesellschafts-)Spiele</b></div></li>
-        <li><div><b>Outdoorspiele</b></div></li>
-        <li><div><b>Ausreichend Klamotten, Jacke, Schuhe</b><small>Achtung, der Langenhard kann windig und kalt werden.</small></div></li>
-        <li><div><b>Insektenspray / Sonnencreme</b></div></li>
-        <li><div><b>Powerbank / Ladekabel</b></div></li>
-        <li><div><b>Kulturbeutel, gefüllt</b></div></li>
-        <li class="hi"><div><b>Schlafzeug: Decke oder Schlafsack, Kissen, Bettlaken</b><small>Wichtig: Es gibt nur Betten mit Matratzen, alles andere müssen wir selbst mitbringen.</small></div></li>
-        <li><div><b>Oropax / Schlafmaske</b></div></li>
-        <li><div><b>Hausschuhe</b></div></li>
-        <li><div><b>Kleingeld für Getränke</b></div></li>
-        <li><div><b>Noten / Gesangbücher / App aufs Handy</b></div></li>
-        <li><div><b>Lieblingskuscheltier</b></div></li>
-        <li><div><b>Badisch-Schwäbisches Wörterbuch</b></div></li>
-        <li><div><b>Legere Sonntagskleidung</b><small>Außer ihr tragt ein Amt, dann gerne in NAK-Tracht.</small></div></li>
-        <li><div><b>Ggf. benötigte Medikamente</b></div></li>
-        <li><div><b>Gute Laune :-)</b></div></li>
-      </ul>
-    </div>
-
     <div class="foot">
       <img class="logo logo-foot" src="logo-loefrog.png" alt="">
       <p>Noch nicht angemeldet?<br><a href="https://forms.gle/XhWDRAVQKNBA3Pff8" target="_blank" rel="noopener">Hier geht's zur Anmeldung →</a></p>
+      <p><a href="#packliste" id="footPack">Zur Packliste →</a></p>
       <a class="up" href="#start">↑ nach oben</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PACKLISTE ================= -->
+<section id="packliste">
+  <div class="wrap wrap-narrow">
+    <div class="prog-head">
+      <img class="logo logo-head" src="logo-loefrog.png" alt="">
+      <h2>Packliste</h2>
+      <span>Froschzeit 2026 &middot; Langenhard</span>
+    </div>
+
+    <p class="pack-intro">Einfach antippen, was schon im Koffer liegt. Die Häkchen bleiben auf deinem Gerät gespeichert, auch wenn du die Seite schließt.</p>
+
+    <div class="pack-progress">
+      <div class="pbar"><i id="packBar"></i></div>
+      <div class="pmeta">
+        <span><b id="packCount">0</b> von <b id="packTotal">0</b> eingepackt</span>
+        <button type="button" id="packReset">zurücksetzen</button>
+      </div>
+    </div>
+
+      <div class="day pack">
+        <h3>Schlafen &amp; Ruhe<small>Auf dem Langenhard gibt es nur Betten mit Matratzen</small></h3>
+        <ul class="packlist">
+          <li class="hi"><label><input type="checkbox" data-k="schlafzeug"><span class="box"></span><span class="txt"><b>Schlafzeug: Decke oder Schlafsack, Kissen, Bettlaken</b><small>Wichtig: Es gibt nur Betten mit Matratzen, alles andere müssen wir selbst mitbringen.</small></span></label></li>
+          <li><label><input type="checkbox" data-k="oropax"><span class="box"></span><span class="txt"><b>Oropax / Schlafmaske</b></span></label></li>
+          <li><label><input type="checkbox" data-k="hausschuhe"><span class="box"></span><span class="txt"><b>Hausschuhe</b></span></label></li>
+        </ul>
+      </div>
+
+      <div class="day pack">
+        <h3>Kleidung<small>Wetterfest und was für den Sonntag</small></h3>
+        <ul class="packlist">
+          <li><label><input type="checkbox" data-k="klamotten"><span class="box"></span><span class="txt"><b>Ausreichend Klamotten, Jacke, Schuhe</b><small>Achtung, der Langenhard kann windig und kalt werden.</small></span></label></li>
+          <li><label><input type="checkbox" data-k="sonntag"><span class="box"></span><span class="txt"><b>Legere Sonntagskleidung</b><small>Außer ihr tragt ein Amt, dann gerne in NAK-Tracht.</small></span></label></li>
+          <li><label><input type="checkbox" data-k="handtuecher"><span class="box"></span><span class="txt"><b>Handtücher</b></span></label></li>
+        </ul>
+      </div>
+
+      <div class="day pack">
+        <h3>Körperpflege &amp; Gesundheit</h3>
+        <ul class="packlist">
+          <li><label><input type="checkbox" data-k="kulturbeutel"><span class="box"></span><span class="txt"><b>Kulturbeutel, gefüllt</b></span></label></li>
+          <li><label><input type="checkbox" data-k="spray"><span class="box"></span><span class="txt"><b>Insektenspray / Sonnencreme</b></span></label></li>
+          <li><label><input type="checkbox" data-k="medis"><span class="box"></span><span class="txt"><b>Ggf. benötigte Medikamente</b></span></label></li>
+        </ul>
+      </div>
+
+      <div class="day pack">
+        <h3>Technik &amp; Geld</h3>
+        <ul class="packlist">
+          <li><label><input type="checkbox" data-k="powerbank"><span class="box"></span><span class="txt"><b>Powerbank / Ladekabel</b></span></label></li>
+          <li><label><input type="checkbox" data-k="kleingeld"><span class="box"></span><span class="txt"><b>Kleingeld für Getränke</b></span></label></li>
+        </ul>
+      </div>
+
+      <div class="day pack">
+        <h3>Spiel, Musik &amp; Spaß<small>Der Teil, der die Freizeit ausmacht</small></h3>
+        <ul class="packlist">
+          <li><label><input type="checkbox" data-k="snacks"><span class="box"></span><span class="txt"><b>Snacks zum Teilen</b></span></label></li>
+          <li><label><input type="checkbox" data-k="spiele"><span class="box"></span><span class="txt"><b>(Gesellschafts-)Spiele</b></span></label></li>
+          <li><label><input type="checkbox" data-k="outdoor"><span class="box"></span><span class="txt"><b>Outdoorspiele</b></span></label></li>
+          <li><label><input type="checkbox" data-k="noten"><span class="box"></span><span class="txt"><b>Noten / Gesangbücher / App aufs Handy</b></span></label></li>
+          <li><label><input type="checkbox" data-k="kuscheltier"><span class="box"></span><span class="txt"><b>Lieblingskuscheltier</b></span></label></li>
+          <li><label><input type="checkbox" data-k="woerterbuch"><span class="box"></span><span class="txt"><b>Badisch-Schwäbisches Wörterbuch</b></span></label></li>
+          <li><label><input type="checkbox" data-k="laune"><span class="box"></span><span class="txt"><b>Gute Laune :-)</b></span></label></li>
+        </ul>
+      </div>
+
+    <div class="foot">
+      <img class="logo logo-foot" src="logo-loefrog.png" alt="">
+      <p>Noch nicht angemeldet?<br><a href="https://forms.gle/XhWDRAVQKNBA3Pff8" target="_blank" rel="noopener">Hier geht's zur Anmeldung &rarr;</a></p>
+      <a class="up" href="#start">&uarr; nach oben</a>
     </div>
   </div>
 </section>
@@ -487,9 +583,62 @@
     p.scrollIntoView({behavior: 'smooth'});
   });
 
-  // Direkteinstieg per #programm
+  function openPack(scroll){
+    var p = document.getElementById('packliste');
+    p.classList.add('show');
+    var ds = p.querySelectorAll('.day');
+    for (var i=0;i<ds.length;i++){ ds[i].classList.add('in'); }
+    if (scroll) { p.scrollIntoView({behavior:'smooth'}); }
+  }
+  document.getElementById('openPack').addEventListener('click', function(){ openPack(true); });
+  document.getElementById('footPack').addEventListener('click', function(e){ e.preventDefault(); openPack(true); });
+
+  // Packliste: Haken merken (nur auf diesem Geraet)
+  (function(){
+    var KEY = 'froschzeit-packliste';
+    var boxes = document.querySelectorAll('#packliste input[type=checkbox]');
+    var bar = document.getElementById('packBar');
+    var cnt = document.getElementById('packCount');
+    var tot = document.getElementById('packTotal');
+    var state = {};
+    try { state = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { state = {}; }
+
+    function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+    function update(){
+      var n = 0;
+      for (var i=0;i<boxes.length;i++){ if (boxes[i].checked) n++; }
+      cnt.textContent = n;
+      tot.textContent = boxes.length;
+      bar.style.width = boxes.length ? (n / boxes.length * 100) + '%' : '0';
+    }
+
+    for (var i=0;i<boxes.length;i++){
+      (function(b){
+        if (state[b.getAttribute('data-k')]) { b.checked = true; }
+        b.addEventListener('change', function(){
+          state[b.getAttribute('data-k')] = b.checked;
+          save();
+          update();
+        });
+      })(boxes[i]);
+    }
+
+    document.getElementById('packReset').addEventListener('click', function(){
+      for (var i=0;i<boxes.length;i++){ boxes[i].checked = false; }
+      state = {};
+      save();
+      update();
+    });
+
+    update();
+  })();
+
+  // Direkteinstieg per #programm oder #packliste
   if (location.hash === '#programm') {
     document.getElementById('programm').classList.add('show');
+  }
+  if (location.hash === '#packliste') {
+    openPack(false);
   }
 </script>
 </body>
