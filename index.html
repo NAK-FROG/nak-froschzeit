@@ -266,6 +266,19 @@
   .day.pack > h3{
     border-image:linear-gradient(90deg,rgba(232,161,120,.72) 0%,rgba(143,208,138,.5) 60%,rgba(255,255,255,.08) 100%) 1;
   }
+  .day.pack > h3.tag-h{
+    text-transform:none;
+    letter-spacing:.2px;
+    font-size:22px;
+    font-weight:700;
+  }
+  .day.pack > h3.tag-h i{
+    font-style:normal;
+    color:var(--accent);
+    margin-right:1px;
+    opacity:.85;
+  }
+  .day.pack > h3.tag-h small{letter-spacing:.3px;margin-top:5px}
   .packlist{list-style:none;margin:0;padding:16px 18px 20px;display:grid;gap:9px}
   .packlist label{
     position:relative;
@@ -502,7 +515,7 @@
     </div>
 
       <div class="day pack">
-        <h3>Schlafen &amp; Ruhe<small>Auf dem Langenhard gibt es nur Betten mit Matratzen</small></h3>
+        <h3 class="tag-h"><i>#</i>schlafmodus<small>Auf dem Langenhard gibt es nur Betten mit Matratzen</small></h3>
         <ul class="packlist">
           <li class="hi"><label><input type="checkbox" data-k="schlafzeug"><span class="box"></span><span class="txt"><b>Schlafzeug: Decke oder Schlafsack, Kissen, Bettlaken</b><small>Wichtig: Es gibt nur Betten mit Matratzen, alles andere müssen wir selbst mitbringen.</small></span></label></li>
           <li><label><input type="checkbox" data-k="oropax"><span class="box"></span><span class="txt"><b>Oropax / Schlafmaske</b></span></label></li>
@@ -511,7 +524,7 @@
       </div>
 
       <div class="day pack">
-        <h3>Kleidung<small>Wetterfest und was für den Sonntag</small></h3>
+        <h3 class="tag-h"><i>#</i>outfitcheck<small>Wetterfest und was für den Sonntag</small></h3>
         <ul class="packlist">
           <li><label><input type="checkbox" data-k="klamotten"><span class="box"></span><span class="txt"><b>Ausreichend Klamotten, Jacke, Schuhe</b><small>Achtung, der Langenhard kann windig und kalt werden.</small></span></label></li>
           <li><label><input type="checkbox" data-k="sonntag"><span class="box"></span><span class="txt"><b>Legere Sonntagskleidung</b><small>Außer ihr tragt ein Amt, dann gerne in NAK-Tracht.</small></span></label></li>
@@ -520,7 +533,7 @@
       </div>
 
       <div class="day pack">
-        <h3>Körperpflege &amp; Gesundheit</h3>
+        <h3 class="tag-h"><i>#</i>frischbleiben<small>Damit alle gern neben dir sitzen</small></h3>
         <ul class="packlist">
           <li><label><input type="checkbox" data-k="kulturbeutel"><span class="box"></span><span class="txt"><b>Kulturbeutel, gefüllt</b></span></label></li>
           <li><label><input type="checkbox" data-k="spray"><span class="box"></span><span class="txt"><b>Insektenspray / Sonnencreme</b></span></label></li>
@@ -529,7 +542,7 @@
       </div>
 
       <div class="day pack">
-        <h3>Spiel, Musik &amp; Spaß<small>Der Teil, der die Freizeit ausmacht</small></h3>
+        <h3 class="tag-h"><i>#</i>spassfaktor<small>Der Teil, der die Freizeit ausmacht</small></h3>
         <ul class="packlist">
           <li><label><input type="checkbox" data-k="snacks"><span class="box"></span><span class="txt"><b>Snacks zum Teilen</b></span></label></li>
           <li><label><input type="checkbox" data-k="spiele"><span class="box"></span><span class="txt"><b>(Gesellschafts-)Spiele</b></span></label></li>
@@ -542,7 +555,7 @@
 
 
       <div class="day pack">
-        <h3>Sonstiges</h3>
+        <h3 class="tag-h"><i>#</i>kleinkram<small>Klein, aber fehlt sonst</small></h3>
         <ul class="packlist">
           <li><label><input type="checkbox" data-k="powerbank"><span class="box"></span><span class="txt"><b>Powerbank / Ladekabel</b></span></label></li>
           <li><label><input type="checkbox" data-k="kleingeld"><span class="box"></span><span class="txt"><b>Kleingeld für Getränke</b></span></label></li>
