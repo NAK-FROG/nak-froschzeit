@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /nak-froschzeit/voice-motto.m4a
+Disallow: /nak-froschzeit/voice-motto.mp3
+Disallow: /voice-motto.m4a
+Disallow: /voice-motto.mp3
