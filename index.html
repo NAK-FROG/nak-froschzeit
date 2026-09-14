@@ -6,7 +6,7 @@
 <title>Froschzeit 2026 — Langenhard</title>
 <style>
   :root{
-    --bg:#10161a;
+    --bg:#0c131c;
     --ink:#f2f6f7;
     --muted:#b9c6cb;
     --line:rgba(255,255,255,.18);
@@ -65,9 +65,20 @@
     text-align:center;
     padding:48px 24px;
     background:
-      radial-gradient(120% 90% at 50% 0%, rgba(70,105,110,.55) 0%, rgba(16,22,26,.95) 65%),
-      linear-gradient(180deg,#1b262b 0%,#10161a 100%);
+      radial-gradient(130% 95% at 50% 4%, rgba(59,143,240,.40) 0%, rgba(12,19,28,.94) 58%),
+      radial-gradient(90% 60% at 50% 100%, rgba(252,116,37,.16) 0%, rgba(12,19,28,0) 70%),
+      linear-gradient(180deg,#15263a 0%,#0c131c 100%);
   }
+  .motto{
+    margin:0 0 30px;
+    width:min(540px,86vw);
+    border-radius:26px;
+    overflow:hidden;
+    background:#fff;
+    box-shadow:0 24px 64px rgba(0,0,0,.55), 0 0 0 6px rgba(255,255,255,.08);
+    animation:rise .9s cubic-bezier(.22,.9,.3,1) both, float 8s ease-in-out 1.2s infinite;
+  }
+  .motto img{display:block;width:100%;height:auto}
   .logo{display:block;border-radius:50%;background:#fff}
   .logo-hero{
     width:118px;height:118px;margin:0 auto 26px;
@@ -78,11 +89,12 @@
   .logo-foot{width:36px;height:36px;margin:0 auto 14px;opacity:.8;transition:opacity .3s ease,transform .3s ease}
   .logo-foot:hover{opacity:1;transform:translateY(-3px)}
   .hero h1{
-    font-size:clamp(28px,5.2vw,58px);
-    line-height:1.18;
-    font-weight:700;
-    margin:0 0 34px;
-    max-width:16ch;
+    font-size:clamp(21px,3.2vw,34px);
+    line-height:1.28;
+    font-weight:600;
+    margin:0 0 30px;
+    max-width:22ch;
+    color:#e8eef5;
     letter-spacing:.4px;
   }
   .btns{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
@@ -107,8 +119,8 @@
     transform:translateX(-120%) skewX(-18deg);opacity:0;
   }
   .btn:hover::after{opacity:1;animation:sheen .75s ease-out}
-  .btn-primary{background:rgba(143,208,138,.9);color:#0d1a0e;box-shadow:0 8px 24px rgba(143,208,138,.2)}
-  .btn-primary:hover{background:var(--accent);box-shadow:0 12px 32px rgba(143,208,138,.3)}
+  .btn-primary{background:var(--brand-orange);color:#fff;box-shadow:0 8px 24px rgba(252,116,37,.28)}
+  .btn-primary:hover{background:#ff8640;box-shadow:0 12px 34px rgba(252,116,37,.4)}
   .btn-ghost{background:rgba(255,255,255,.06);color:var(--ink);border-color:var(--line)}
   .btn-ghost:hover{background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.3)}
   .hint{margin-top:34px;font-size:13px;color:rgba(255,255,255,.4);letter-spacing:.6px;text-transform:uppercase}
@@ -124,7 +136,7 @@
     display:none;
     position:relative;
     padding:64px 20px 90px;
-    background-color:#0b1116;
+    background-color:#0a111a;
     background-image:
       linear-gradient(180deg, rgba(9,14,19,.28) 0%, rgba(9,14,19,.56) 52%, rgba(9,14,19,.78) 100%),
       url("Langenhard.jpeg");
@@ -229,7 +241,7 @@
     display:none;
     position:relative;
     padding:64px 20px 90px;
-    background-color:#0b1116;
+    background-color:#0a111a;
     background-image:
       linear-gradient(180deg, rgba(9,14,19,.45) 0%, rgba(9,14,19,.7) 52%, rgba(9,14,19,.86) 100%),
       url("Langenhard.jpeg");
@@ -352,7 +364,7 @@
         linear-gradient(180deg, rgba(9,14,19,.3) 0px, rgba(9,14,19,.76) 240px, rgba(9,14,19,.92) 420px),
         url("Langenhard.jpeg");
     }
-    .logo-hero{width:92px;height:92px;margin-bottom:18px}
+    .motto{margin-bottom:22px;border-radius:20px}
     table{min-width:0}
     thead{display:none}
     tbody tr{display:block;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.09)}
@@ -383,7 +395,9 @@
 
 <!-- ================= WILLKOMMEN ================= -->
 <section class="hero" id="start">
-  <img class="logo logo-hero" src="logo-loefrog.png" alt="LöFROG Logo">
+  <figure class="motto">
+    <img src="Moto_Froschzeit_2026.jpeg" alt="Du bist gut genug, LöFROG Jugendfreizeit, 18. bis 20. September, Langenhard/Lahr">
+  </figure>
   <h1 class="rise d1">Herzlich Willkommen zur Froschzeit 2026 auf dem Langenhard</h1>
   <div class="btns rise d2">
     <a class="btn btn-primary" href="https://forms.gle/XhWDRAVQKNBA3Pff8" target="_blank" rel="noopener">Zur Anmeldung</a>
@@ -529,6 +543,7 @@
           <li><label><input type="checkbox" data-k="klamotten"><span class="box"></span><span class="txt"><b>Ausreichend Klamotten, Jacke, Schuhe</b><small>Achtung, der Langenhard kann windig und kalt werden.</small></span></label></li>
           <li><label><input type="checkbox" data-k="sonntag"><span class="box"></span><span class="txt"><b>Legere Sonntagskleidung</b><small>Außer ihr tragt ein Amt, dann gerne in NAK-Tracht.</small></span></label></li>
           <li><label><input type="checkbox" data-k="handtuecher"><span class="box"></span><span class="txt"><b>Handtücher</b></span></label></li>
+          <li><label><input type="checkbox" data-k="tshirt"><span class="box"></span><span class="txt"><b>Einfarbiges T-Shirt zum Bedrucken</b><small>Für die LÖ-FROG-Druckaktion am Samstag.</small></span></label></li>
         </ul>
       </div>
 
@@ -548,6 +563,7 @@
           <li><label><input type="checkbox" data-k="spiele"><span class="box"></span><span class="txt"><b>(Gesellschafts-)Spiele</b></span></label></li>
           <li><label><input type="checkbox" data-k="outdoor"><span class="box"></span><span class="txt"><b>Outdoorspiele</b></span></label></li>
           <li><label><input type="checkbox" data-k="noten"><span class="box"></span><span class="txt"><b>Noten / Gesangbücher / App aufs Handy</b></span></label></li>
+          <li><label><input type="checkbox" data-k="andachtsheft"><span class="box"></span><span class="txt"><b>Andachtsheft &amp; Jugendliederbuch</b></span></label></li>
           <li><label><input type="checkbox" data-k="kuscheltier"><span class="box"></span><span class="txt"><b>Lieblingskuscheltier</b></span></label></li>
           <li><label><input type="checkbox" data-k="laune"><span class="box"></span><span class="txt"><b>Gute Laune :-)</b></span></label></li>
         </ul>
