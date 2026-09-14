@@ -223,6 +223,62 @@
   .card p.pl::before{content:"📍 ";}
   .card p:empty{display:none}
 
+
+  /* ---------- Packliste ---------- */
+  .day.pack > h3{
+    border-image:linear-gradient(90deg,rgba(232,161,120,.72) 0%,rgba(143,208,138,.5) 60%,rgba(255,255,255,.08) 100%) 1;
+  }
+  .packlist{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:12px;
+    padding:20px 22px 24px;
+    margin:0;
+    list-style:none;
+  }
+  .packlist li{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    border:1px solid rgba(255,255,255,.11);
+    border-left:3px solid rgba(143,208,138,.45);
+    border-radius:12px;
+    background:rgba(255,255,255,.04);
+    padding:13px 16px;
+    font-size:15px;
+    line-height:1.35;
+    transition:transform .35s cubic-bezier(.22,.9,.3,1), background .35s ease, border-color .35s ease, box-shadow .35s ease;
+  }
+  .packlist li:hover{
+    transform:translateY(-4px);
+    background:rgba(255,255,255,.07);
+    border-left-color:rgba(143,208,138,.85);
+    box-shadow:0 12px 28px rgba(0,0,0,.28);
+  }
+  .packlist li::before{
+    content:"\2713";
+    flex:0 0 auto;
+    width:22px;height:22px;
+    margin-top:1px;
+    display:flex;align-items:center;justify-content:center;
+    border-radius:7px;
+    font-size:13px;font-weight:700;
+    color:#c2e5be;
+    background:rgba(143,208,138,.16);
+    border:1px solid rgba(143,208,138,.35);
+    transition:background .35s ease,color .35s ease;
+  }
+  .packlist li:hover::before{background:rgba(143,208,138,.3);color:#e6f6e4}
+  .packlist li b{font-weight:600}
+  .packlist li small{display:block;margin-top:5px;font-size:13px;color:var(--muted);line-height:1.4}
+  .packlist li.hi{border-left-color:rgba(232,161,120,.7);background:var(--orange-soft)}
+  .packlist li.hi::before{color:#f0c1a4;background:rgba(232,161,120,.18);border-color:rgba(232,161,120,.4)}
+  .packlist li.hi:hover{border-left-color:rgba(232,161,120,.95);background:rgba(232,161,120,.19)}
+  .packlist li.hi:hover::before{background:rgba(232,161,120,.32);color:#ffe0cb}
+  @media (max-width:640px){
+    .packlist{padding:16px 14px 20px;grid-template-columns:1fr}
+  }
+
   .foot{text-align:center;margin-top:46px}
   .foot a{color:var(--accent);text-decoration:none;font-weight:600}
   .foot a:hover{text-decoration:underline}
@@ -370,6 +426,31 @@
         </tbody>
       </table>
       </div>
+    </div>
+
+    <!-- PACKLISTE -->
+    <div class="day pack">
+      <h3>Froschzeit Packliste<small>Damit nichts fehlt</small></h3>
+      <ul class="packlist">
+        <li><div><b>Snacks zum Teilen</b></div></li>
+        <li><div><b>Handtücher</b></div></li>
+        <li><div><b>(Gesellschafts-)Spiele</b></div></li>
+        <li><div><b>Outdoorspiele</b></div></li>
+        <li><div><b>Ausreichend Klamotten, Jacke, Schuhe</b><small>Achtung, der Langenhard kann windig und kalt werden.</small></div></li>
+        <li><div><b>Insektenspray / Sonnencreme</b></div></li>
+        <li><div><b>Powerbank / Ladekabel</b></div></li>
+        <li><div><b>Kulturbeutel, gefüllt</b></div></li>
+        <li class="hi"><div><b>Schlafzeug: Decke oder Schlafsack, Kissen, Bettlaken</b><small>Wichtig: Es gibt nur Betten mit Matratzen, alles andere müssen wir selbst mitbringen.</small></div></li>
+        <li><div><b>Oropax / Schlafmaske</b></div></li>
+        <li><div><b>Hausschuhe</b></div></li>
+        <li><div><b>Kleingeld für Getränke</b></div></li>
+        <li><div><b>Noten / Gesangbücher / App aufs Handy</b></div></li>
+        <li><div><b>Lieblingskuscheltier</b></div></li>
+        <li><div><b>Badisch-Schwäbisches Wörterbuch</b></div></li>
+        <li><div><b>Legere Sonntagskleidung</b><small>Außer ihr tragt ein Amt, dann gerne in NAK-Tracht.</small></div></li>
+        <li><div><b>Ggf. benötigte Medikamente</b></div></li>
+        <li><div><b>Gute Laune :-)</b></div></li>
+      </ul>
     </div>
 
     <div class="foot">
